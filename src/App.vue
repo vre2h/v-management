@@ -1,9 +1,10 @@
 <template>
   <div id="app">
     <ul>
-      <li><router-link to="/">/</router-link></li>
-      <li><router-link to="/home">/home</router-link></li>
+      <li><b-link href="/">/</b-link></li>
+      <li><b-link href="/home">/home</b-link></li>
     </ul>
+    <b-alert variant="success" show>Success Alert</b-alert>
 
     <router-view></router-view>
   </div>
@@ -22,6 +23,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 60px;
 }
 </style>
