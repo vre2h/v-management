@@ -2,17 +2,21 @@
   <div id="app">
     <Menu />
 
-    <router-view></router-view>
+    <Layout>
+      <router-view></router-view>
+    </Layout>
   </div>
 </template>
 
 <script>
 import Menu from "./components/Menu.vue";
+import Layout from "./components/Layout";
 
 export default {
   name: "App",
   components: {
-    Menu
+    Menu,
+    Layout
   }
 };
 </script>
