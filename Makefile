@@ -6,3 +6,6 @@ build:
 
 lint:
 	npx vue-cli-service lint
+
+deploy: lint build
+	npx gh-pages -d dist
