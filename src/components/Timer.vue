@@ -47,12 +47,13 @@ export default {
         const minutes = Math.floor(restTime / 60);
         const seconds = restTime % 60;
 
+        const makeTimerComplete = timer =>
+          timer.id === this.timeoutId ? { ...timer, complete: true } : timer;
+
         if (restTime < 0) {
           this.resetTimer();
         } else if (restTime === 0) {
-          this.timers.map(timer =>
-            timer.id === this.timeoutId ? { ...timer, complete: true } : timer
-          );
+          this.timers = this.timers.map(makeTimerComplete);
           this.resetTimer();
           beep();
         } else {
@@ -63,19 +64,22 @@ export default {
 
       this.timers.push({
         id: this.timeoutId,
-        time: `${this.timer.minutes}:${this.timer.seconds}`,
+        minutes: this.timer.minutes,
+        seconds: this.timer.seconds,
         complete: false
       });
     },
     resetTimer() {
-      this.timers.map(timer =>
+      const addcompletedTime = timer =>
         timer.id === this.timeoutId
           ? {
               ...timer,
-              completeTime: `${this.timer.minutes}:${this.timer.seconds}`
+              completedMinutes: timer.minutes - this.timer.minutes,
+              completedSeconds: timer.seconds - this.timer.seconds
             }
-          : timer
-      );
+          : timer;
+
+      this.timers = this.timers.map(addcompletedTime);
 
       clearTimeout(this.timeoutId);
       this.timerProcess = "unset";
