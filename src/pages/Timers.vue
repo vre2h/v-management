@@ -1,7 +1,10 @@
 <template>
   <b-container fluid="sm">
     <b-row class="mb-3">
-      <Timer :onFinish="handleTimerFinish" :onResetAndSave="handleTimerResetAndSave" />
+      <Timer
+        :onFinish="handleTimerFinish"
+        :onResetAndSave="handleTimerResetAndSave"
+      />
     </b-row>
     <b-row class="d-flex justify-content-center">
       <b-col sm="8">
@@ -28,12 +31,12 @@ export default {
   data() {
     return {
       timerName: "",
-      timers: []
+      timers: [],
     };
   },
   methods: {
     handleTimerFinish(timer) {
-      this.timers.push(timer);
+      this.timers.push({ ...timer, status: "finished" });
     },
     handleTimerResetAndSave(timer, completedTime) {
       const minutes = Math.floor(completedTime / 60);
@@ -43,12 +46,11 @@ export default {
         ...timer,
         status: "resetted",
         completedMinutes: minutes,
-        completedSeconds: seconds
+        completedSeconds: seconds,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

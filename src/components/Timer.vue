@@ -46,28 +46,33 @@
           variant="outline-primary"
           :disabled="timerProcess === 'settled' || activeTime === 0"
           @click="startTimer"
-        >Start</b-button>
+          >Start</b-button
+        >
         <b-button
           v-if="timerProcess === 'settled'"
           variant="outline-primary"
           :disabled="timerProcess === 'paused' || activeTime === 0"
           @click="pauseTimer"
-        >Stop</b-button>
+          >Stop</b-button
+        >
         <b-button
           v-if="timerProcess === 'paused'"
           variant="outline-primary"
           @click="unPauseTimer"
-        >Resume</b-button>
+          >Resume</b-button
+        >
         <b-button
           variant="outline-primary"
           @click="resetAndSaveTimer"
           :disabled="timerProcess === 'unset'"
-        >Reset and Save</b-button>
+          >Reset and Save</b-button
+        >
         <b-button
           variant="outline-primary"
           @click="resetTimer"
           :disabled="timerProcess === 'unset'"
-        >Reset</b-button>
+          >Reset</b-button
+        >
       </b-button-group>
     </b-row>
   </b-container>
@@ -80,19 +85,19 @@ export default {
   props: {
     onFinish: {
       type: Function,
-      required: true
+      required: true,
     },
     onResetAndSave: {
       type: Function,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       timerProcess: "unset",
       timer: this.createTimerValues(),
       timeoutId: null,
-      completedTime: 0
+      completedTime: 0,
     };
   },
   methods: {
@@ -121,7 +126,7 @@ export default {
             minutes: this.timer.minutes,
             seconds: this.timer.seconds,
             title: this.timer.title,
-            description: this.timer.description
+            description: this.timer.description,
           });
           this.cleanTimer();
         } else {
@@ -140,7 +145,7 @@ export default {
           minutes: this.timer.minutes,
           seconds: this.timer.seconds,
           title: this.timer.title,
-          description: this.timer.description
+          description: this.timer.description,
         },
         this.completedTime
       );
@@ -157,9 +162,9 @@ export default {
         minutes: "30",
         seconds: "00",
         title: "",
-        description: ""
+        description: "",
       };
-    }
+    },
   },
   computed: {
     activeTime() {
@@ -167,7 +172,7 @@ export default {
     },
     disableData() {
       return this.timerProcess === "paused" || this.timerProcess === "settled";
-    }
-  }
+    },
+  },
 };
 </script>
