@@ -21,7 +21,6 @@ const config = {
   messagingSenderId: VUE_APP_MESSAGING_SENDER_ID,
   appId: VUE_APP_APP_ID,
 };
-console.log("CONFIG: ", config);
 firebase.initializeApp(config);
 
 // firebase utils

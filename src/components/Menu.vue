@@ -5,7 +5,7 @@
         <b-navbar-brand to="/">v-Manage</b-navbar-brand>
 
         <template v-if="isLoggedIn">
-          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+          <b-navbar-toggle class="mr-4" target="nav-collapse"></b-navbar-toggle>
 
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
@@ -26,14 +26,17 @@
         </template>
 
         <template v-if="!isLoggedIn">
-          <b-navbar-nav class="ml-auto">
-            <b-navbar-nav>
-              <b-nav-item to="/sign-in">Sign In</b-nav-item>
+          <b-navbar-toggle class="mr-4" target="nav-collapse"></b-navbar-toggle>
+          <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav class="ml-auto">
+              <b-navbar-nav>
+                <b-nav-item to="/sign-in">Sign In</b-nav-item>
+              </b-navbar-nav>
+              <b-navbar-nav class="mr-4">
+                <b-nav-item to="/sign-up">Sign Up</b-nav-item>
+              </b-navbar-nav>
             </b-navbar-nav>
-            <b-navbar-nav class="mr-4">
-              <b-nav-item to="/sign-up">Sign Up</b-nav-item>
-            </b-navbar-nav>
-          </b-navbar-nav>
+          </b-collapse>
         </template>
       </b-navbar>
     </div>
