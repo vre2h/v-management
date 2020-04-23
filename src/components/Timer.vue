@@ -1,45 +1,80 @@
 <template>
-  <div class="wrapper">
-    <b-input-group prepend="Timer" class="mb-2">
-      <b-form-input
-        aria-label="Minutes"
-        :disabled="timerProcess === 'settled'"
-        v-model="timer.minutes"
-      ></b-form-input>
-      <b-form-input
-        aria-label="Seconds"
-        :disabled="timerProcess === 'settled'"
-        v-model="timer.seconds"
-      ></b-form-input>
-    </b-input-group>
-    <b-button-group class="btn-wrapper">
-      <b-button
-        variant="outline-primary"
-        :disabled="timerProcess === 'settled'"
-        @click="startTimer"
-      >Start</b-button>
-      <b-button
-        variant="outline-primary"
-        @click="resetTimer"
-        :disabled="timerProcess === 'unset'"
-      >Reset</b-button>
-    </b-button-group>
-  </div>
+  <b-container>
+    <b-row sm="4" class="d-flex justify-content-center mb-2">
+      <b-col sm="6">
+        <label for="input-default">Goal:</label>
+        <b-form-input
+          :disabled="timerProcess === 'settled'"
+          v-model="timer.title"
+          id="input-default"
+          placeholder="Put your goal here..."
+        ></b-form-input>
+      </b-col>
+    </b-row>
+    <b-row class="d-flex justify-content-center">
+      <b-col sm="6">
+        <b-input-group prepend="Timer" class="mb-2">
+          <b-form-input
+            aria-label="Minutes"
+            :disabled="timerProcess === 'settled'"
+            v-model="timer.minutes"
+          ></b-form-input>
+          <b-form-input
+            aria-label="Seconds"
+            :disabled="timerProcess === 'settled'"
+            v-model="timer.seconds"
+          ></b-form-input>
+        </b-input-group>
+      </b-col>
+    </b-row>
+    <b-row class="d-flex justify-content-center">
+      <b-button-group class="btn-wrapper">
+        <b-button
+          variant="outline-primary"
+          :disabled="timerProcess === 'settled'"
+          @click="startTimer"
+        >Start</b-button>
+        <b-button
+          variant="outline-primary"
+          @click="resetTimer"
+          :disabled="timerProcess === 'unset'"
+        >Reset</b-button>
+      </b-button-group>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
 import { beep } from "../utils";
 
 export default {
+  props: {
+    onFinish: {
+      type: Function,
+      required: true
+    },
+    onStart: {
+      type: Function,
+      required: true
+    },
+    onReset: {
+      type: Function,
+      required: true
+    }
+  },
   data() {
     return {
       timerProcess: "unset",
       timer: this.createTimerValues(),
-      timeoutId: null,
-      timers: []
+      timeoutId: null
     };
   },
   methods: {
+    cleanTimer() {
+      clearTimeout(this.timeoutId);
+      this.timerProcess = "unset";
+      this.timer = this.createTimerValues();
+    },
     startTimer() {
       this.timerProcess = "settled";
       this.timeoutId = setInterval(() => {
@@ -47,48 +82,34 @@ export default {
         const minutes = Math.floor(restTime / 60);
         const seconds = restTime % 60;
 
-        const makeTimerComplete = timer =>
-          timer.id === this.timeoutId ? { ...timer, complete: true } : timer;
-
         if (restTime < 0) {
           this.resetTimer();
         } else if (restTime === 0) {
-          this.timers = this.timers.map(makeTimerComplete);
-          this.resetTimer();
           beep();
+          this.onFinish(this.timeoutId);
+          this.cleanTimer();
         } else {
           this.timer.minutes = minutes;
           this.timer.seconds = seconds;
         }
       }, 1000);
 
-      this.timers.push({
+      this.onStart({
         id: this.timeoutId,
         minutes: this.timer.minutes,
         seconds: this.timer.seconds,
-        complete: false
+        title: this.timer.title
       });
     },
     resetTimer() {
-      const addcompletedTime = timer =>
-        timer.id === this.timeoutId
-          ? {
-              ...timer,
-              completedMinutes: timer.minutes - this.timer.minutes,
-              completedSeconds: timer.seconds - this.timer.seconds
-            }
-          : timer;
-
-      this.timers = this.timers.map(addcompletedTime);
-
-      clearTimeout(this.timeoutId);
-      this.timerProcess = "unset";
-      this.timer = this.createTimerValues();
+      this.onReset(this.timeoutId, this.activeTime);
+      this.cleanTimer();
     },
     createTimerValues() {
       return {
         minutes: "30",
-        seconds: "00"
+        seconds: "00",
+        title: ""
       };
     }
   },
@@ -99,19 +120,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: unset;
-
-  max-width: 320px;
-  margin: 0 auto;
-}
-
-.btn-wrapper {
-  margin-top: 30px;
-}
-</style>

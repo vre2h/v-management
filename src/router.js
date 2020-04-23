@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-import Timer from "./components/Timer.vue";
+import Timer from "@/pages/Timers.vue";
 
 Vue.use(Router);
 
@@ -10,7 +10,7 @@ export default new Router({
   routes: [
     {
       path: "/timer",
-      component: Timer
-    }
-  ]
+      component: Timer,
+    },
+  ],
 });

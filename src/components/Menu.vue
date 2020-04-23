@@ -2,13 +2,13 @@
   <div>
     <div>
       <b-navbar toggleable="md" type="dark" variant="info">
-        <b-navbar-brand href="#">v-Management</b-navbar-brand>
+        <b-navbar-brand to="/">v-Management</b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item to="/timer">Timer</b-nav-item>
+            <b-nav-item to="timer">Timer</b-nav-item>
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
