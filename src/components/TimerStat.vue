@@ -27,7 +27,9 @@ export default {
       return "light";
     },
     title() {
-      return this.timer.title || `#${this.index + 1}`;
+      return this.timer.title
+        ? `#${this.index + 1}: ${this.timer.title}`
+        : `#${this.index + 1}`;
     },
     status() {
       if (this.timer.status === "finished") {
