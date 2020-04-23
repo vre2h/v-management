@@ -1,6 +1,7 @@
 import Vue from "vue";
 import App from "./App";
 
+import * as firebase from "@/firebase";
 // UI
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
@@ -13,7 +14,14 @@ Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
 
-new Vue({
-  router,
-  render: (h) => h(App),
-}).$mount("#app");
+let app;
+
+firebase.auth().onAuthStateChanged(() => {
+  if (!app) {
+    app = new Vue({
+      el: "#app",
+      router,
+      render: (h) => h(App),
+    });
+  }
+});
