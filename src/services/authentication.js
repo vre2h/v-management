@@ -9,8 +9,21 @@ export const signUp = ({ email, password, ...info }) => {
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .then((user) => {
-      return firebase.usersCollection.doc(user.uid).set({
+      return firebase.usersCollection.doc(user.user.uid).set({
         ...info,
       });
+    });
+};
+
+export const signOut = () => {
+  return firebase.auth().signOut();
+};
+
+export const getUserById = (uid) => {
+  return firebase.usersCollection
+    .doc(uid)
+    .get()
+    .then((res) => {
+      return res.data();
     });
 };

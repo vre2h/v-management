@@ -1,34 +1,63 @@
 <template>
   <div>
     <div>
-      <b-navbar toggleable="md" type="dark" variant="info">
+      <b-navbar toggleable="md" type="light" variant="light">
         <b-navbar-brand to="/">v-Management</b-navbar-brand>
 
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <template v-if="isLoggedIn">
+          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav>
-            <b-nav-item to="timer">Timer</b-nav-item>
-          </b-navbar-nav>
+          <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav>
+              <b-nav-item to="timer">Timer</b-nav-item>
+            </b-navbar-nav>
 
-          <!-- Right aligned nav items -->
+            <!-- Right aligned nav items -->
+            <b-navbar-nav class="ml-auto">
+              <b-nav-item-dropdown class="mr-4" right>
+                <!-- Using 'button-content' slot -->
+                <template v-slot:button-content>
+                  {{ userProfile.name }}
+                </template>
+                <b-dropdown-item @click="signOut">Sign Out</b-dropdown-item>
+              </b-nav-item-dropdown>
+            </b-navbar-nav>
+          </b-collapse>
+        </template>
+
+        <template v-if="!isLoggedIn">
           <b-navbar-nav class="ml-auto">
-            <b-nav-form>
-              <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-              <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-            </b-nav-form>
-
-            <b-nav-item-dropdown right>
-              <!-- Using 'button-content' slot -->
-              <template v-slot:button-content>
-                <em>User</em>
-              </template>
-              <b-dropdown-item href="#">Profile</b-dropdown-item>
-              <b-dropdown-item href="#">Sign Out</b-dropdown-item>
-            </b-nav-item-dropdown>
+            <b-navbar-nav>
+              <b-nav-item to="/sign-in">Sign In</b-nav-item>
+            </b-navbar-nav>
+            <b-navbar-nav class="mr-4">
+              <b-nav-item to="/sign-up">Sign Up</b-nav-item>
+            </b-navbar-nav>
           </b-navbar-nav>
-        </b-collapse>
+        </template>
       </b-navbar>
     </div>
   </div>
 </template>
+
+<script>
+import { mapState } from "vuex";
+
+export default {
+  methods: {
+    signOut() {
+      this.$store.dispatch("user/signOut").then(() => {
+        this.$router.push({
+          name: "sign-in",
+        });
+      });
+    },
+  },
+  computed: {
+    ...mapState("user", ["userProfile", "currentUser"]),
+    isLoggedIn() {
+      return !!this.currentUser;
+    },
+  },
+};
+</script>

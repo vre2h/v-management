@@ -9,8 +9,22 @@
             label-class="font-weight-bold pt-0"
             class="mb-0"
           >
-            <b-form-group label-cols-sm="12" label="Email:" label-align-sm="left" label-for="email">
-              <b-form-input v-model.trim="email" id="email"></b-form-input>
+            <b-form-group
+              label-cols-sm="12"
+              label="Name:"
+              label-align-sm="left"
+              label-for="name"
+            >
+              <b-form-input v-model.trim="user.name" id="name"></b-form-input>
+            </b-form-group>
+
+            <b-form-group
+              label-cols-sm="12"
+              label="Email:"
+              label-align-sm="left"
+              label-for="email"
+            >
+              <b-form-input v-model.trim="user.email" id="email"></b-form-input>
             </b-form-group>
             <b-form-group
               label-cols-sm="12"
@@ -19,7 +33,7 @@
               label-for="password"
             >
               <b-input
-                v-model.trim="password"
+                v-model.trim="user.password"
                 type="password"
                 id="password"
                 aria-describedby="password-help-block"
@@ -27,11 +41,12 @@
             </b-form-group>
           </b-form-group>
           <b-button
-            @click="login"
+            @click="signUp"
             type="submit"
             variant="outline-primary"
             class="mt-3 w-100"
-          >Sign Up</b-button>
+            >Sign Up</b-button
+          >
         </b-form>
         <div class="d-flex justify-content-center mt-3">
           <p class="mr-1">Already have an account?</p>
@@ -43,23 +58,17 @@
 </template>
 
 <script>
-import { signUp } from "@/services/authentication";
-
 export default {
   data() {
     return {
-      email: "",
-      password: "",
-      name: ""
+      user: { email: "", password: "", name: "" },
     };
   },
   methods: {
-    login() {
-      signUp({ email: this.email, password: this.password, name: this.name })
-        .then(console.log)
-        .catch(console.warn);
-    }
-  }
+    signUp() {
+      this.$store.dispatch("user/signUp", this.user);
+    },
+  },
 };
 </script>
 

@@ -7,6 +7,7 @@ import Timer from "@/pages/Timers.vue";
 import SignIn from "@/pages/SignIn.vue";
 import SignUp from "@/pages/SignUp.vue";
 import NotFound from "@/pages/NotFound.vue";
+import Home from "@/pages/Home.vue";
 
 Vue.use(Router);
 
@@ -14,6 +15,11 @@ const router = new Router({
   base: process.env.BASE_URL,
   mode: "history",
   routes: [
+    {
+      path: "/",
+      name: "home",
+      component: Home,
+    },
     {
       path: "/sign-in",
       name: "sign-in",

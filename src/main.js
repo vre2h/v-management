@@ -1,5 +1,5 @@
 import Vue from "vue";
-import App from "./App";
+import loader from "nprogress";
 
 import * as firebase from "@/firebase";
 import store from "@/store/store";
@@ -8,6 +8,9 @@ import store from "@/store/store";
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import "nprogress/nprogress.css";
+
+import App from "./App";
 
 // Routing
 import router from "./router";
@@ -18,7 +21,10 @@ Vue.use(BootstrapVueIcons);
 
 let app;
 
-firebase.auth().onAuthStateChanged(() => {
+firebase.auth().onAuthStateChanged((user) => {
+  store.commit("user/SET_CURRENT_USER", user);
+  store.dispatch("user/fetchUserProfile").then(() => loader.done());
+
   if (!app) {
     app = new Vue({
       el: "#app",

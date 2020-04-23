@@ -1,7 +1,7 @@
 <template>
-  <p :class="notificationTypeClass" class="notification-bar">
+  <b-alert show :variant="alertType" class="notification-bar">
     {{ notification.message }}
-  </p>
+  </b-alert>
 </template>
 
 <script>
@@ -26,8 +26,8 @@ export default {
     clearTimeout();
   },
   computed: {
-    notificationTypeClass() {
-      return `-text-${this.notification.type}`;
+    alertType() {
+      return this.notification.type === "error" ? "danger" : "success";
     },
   },
   methods: mapActions("notification", ["remove"]),

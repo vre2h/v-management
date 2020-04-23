@@ -9,8 +9,13 @@
             label-class="font-weight-bold pt-0"
             class="mb-0"
           >
-            <b-form-group label-cols-sm="12" label="Email:" label-align-sm="left" label-for="email">
-              <b-form-input v-model.trim="email" id="email"></b-form-input>
+            <b-form-group
+              label-cols-sm="12"
+              label="Email:"
+              label-align-sm="left"
+              label-for="email"
+            >
+              <b-form-input v-model.trim="user.email" id="email"></b-form-input>
             </b-form-group>
             <b-form-group
               label-cols-sm="12"
@@ -19,7 +24,7 @@
               label-for="password"
             >
               <b-input
-                v-model.trim="password"
+                v-model.trim="user.password"
                 type="password"
                 id="password"
                 aria-describedby="password-help-block"
@@ -31,7 +36,8 @@
             @click="signIn"
             type="submit"
             variant="outline-primary"
-          >Sign In</b-button>
+            >Sign In</b-button
+          >
         </b-form>
         <div class="d-flex justify-content-center mt-3">
           <p class="mr-1">Don't have an account?</p>
@@ -43,22 +49,21 @@
 </template>
 
 <script>
-import { signIn } from "@/services/authentication";
-
 export default {
   data() {
     return {
-      email: "",
-      password: ""
+      user: { email: "", password: "" },
     };
   },
   methods: {
     signIn() {
-      signIn({ email: this.email, password: this.password })
-        .then(console.log)
-        .catch(console.warn);
-    }
-  }
+      this.$store.dispatch("user/signIn", this.user).then(() => {
+        this.$router.push({
+          name: "home",
+        });
+      });
+    },
+  },
 };
 </script>
 
