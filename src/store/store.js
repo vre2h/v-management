@@ -1,8 +1,8 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-import * as notification from "@/store/modules/notification.js";
-import * as user from "@/store/modules/user.js";
+import * as notification from '@/store/modules/notification';
+import * as user from '@/store/modules/user';
 
 Vue.use(Vuex);
 

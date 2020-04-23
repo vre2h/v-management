@@ -1,5 +1,5 @@
-import firebase from "firebase";
-import "firebase/firestore";
+import firebase from 'firebase';
+import 'firebase/firestore';
 
 const {
   VUE_APP_API_KEY,
@@ -26,13 +26,15 @@ firebase.initializeApp(config);
 
 // firebase utils
 const db = firebase.firestore();
-const auth = firebase.auth;
-const currentUser = auth().currentUser;
+const { auth } = firebase;
+const { currentUser } = auth();
 
 // date issue fix according to firebase
 db.settings({});
 
 // firebase collections
-const usersCollection = db.collection("users");
+const usersCollection = db.collection('users');
 
-export { db, auth, currentUser, usersCollection };
+export {
+  db, auth, currentUser, usersCollection,
+};

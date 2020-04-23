@@ -42,23 +42,23 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
 export default {
   methods: {
     signOut() {
-      this.$store.dispatch("user/signOut").then(() => {
+      this.$store.dispatch('user/signOut').then(() => {
         this.$router.push({
-          name: "sign-in"
+          name: 'sign-in',
         });
       });
-    }
+    },
   },
   computed: {
-    ...mapState("user", ["userProfile", "currentUser"]),
+    ...mapState('user', ['userProfile', 'currentUser']),
     isLoggedIn() {
       return !!this.currentUser;
-    }
-  }
+    },
+  },
 };
 </script>
