@@ -2,28 +2,34 @@
 
 Note, this app is just MVP and the code might smell really bad :)
 
+## Deployment
+
+```
+make deploy
+```
+
 ## Project setup
 
 ```
-yarn install
+make install
 ```
 
 ### Compiles and hot-reloads for development
 
 ```
-yarn serve
+make start
 ```
 
 ### Compiles and minifies for production
 
 ```
-yarn build
+make build
 ```
 
 ### Lints and fixes files
 
 ```
-yarn lint
+make lint
 ```
 
 ### Customize configuration

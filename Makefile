@@ -12,3 +12,6 @@ deploy: lint
 
 log:
 	heroku logs --tail
+
+install:
+	yarn install
