@@ -5,7 +5,7 @@
         <b-navbar-brand to="/">v-Manage</b-navbar-brand>
 
         <template v-if="isLoggedIn">
-          <b-navbar-toggle class="mr-4" target="nav-collapse"></b-navbar-toggle>
+          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
@@ -16,9 +16,7 @@
             <b-navbar-nav class="ml-auto">
               <b-nav-item-dropdown class="mr-4" right>
                 <!-- Using 'button-content' slot -->
-                <template v-slot:button-content>
-                  {{ userProfile.name }}
-                </template>
+                <template v-slot:button-content>{{ userProfile.name }}</template>
                 <b-dropdown-item @click="signOut">Sign Out</b-dropdown-item>
               </b-nav-item-dropdown>
             </b-navbar-nav>
@@ -26,7 +24,7 @@
         </template>
 
         <template v-if="!isLoggedIn">
-          <b-navbar-toggle class="mr-4" target="nav-collapse"></b-navbar-toggle>
+          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav class="ml-auto">
               <b-navbar-nav>
@@ -51,16 +49,16 @@ export default {
     signOut() {
       this.$store.dispatch("user/signOut").then(() => {
         this.$router.push({
-          name: "sign-in",
+          name: "sign-in"
         });
       });
-    },
+    }
   },
   computed: {
     ...mapState("user", ["userProfile", "currentUser"]),
     isLoggedIn() {
       return !!this.currentUser;
-    },
-  },
+    }
+  }
 };
 </script>

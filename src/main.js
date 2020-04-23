@@ -1,5 +1,4 @@
 import Vue from "vue";
-import loader from "nprogress";
 
 import * as firebase from "@/firebase";
 import store from "@/store/store";
@@ -23,7 +22,6 @@ let app;
 
 firebase.auth().onAuthStateChanged((user) => {
   store.commit("user/SET_CURRENT_USER", user);
-  store.dispatch("user/fetchUserProfile").then(() => loader.done());
 
   if (!app) {
     app = new Vue({

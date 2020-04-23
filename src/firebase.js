@@ -21,12 +21,13 @@ const config = {
   messagingSenderId: VUE_APP_MESSAGING_SENDER_ID,
   appId: VUE_APP_APP_ID,
 };
+
 firebase.initializeApp(config);
 
 // firebase utils
 const db = firebase.firestore();
 const auth = firebase.auth;
-const currentUser = auth.currentUser;
+const currentUser = auth().currentUser;
 
 // date issue fix according to firebase
 db.settings({});

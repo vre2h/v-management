@@ -1,6 +1,6 @@
 <template>
   <b-container fluid="sm" class="d-flex justify-content-center">
-    <b-col cols="8">
+    <b-col md="8" cols="12">
       <b-card class="w-100" bg-variant="light">
         <b-form @submit.prevent>
           <b-form-group

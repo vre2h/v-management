@@ -1,18 +1,18 @@
+import * as firebase from "@/firebase";
 import {
   getUserById,
   signIn,
   signUp,
   signOut,
-  verifyEmail,
 } from "@/services/authentication";
+import * as LocalStorage from "@/services/localStorage";
 import loader from "nprogress";
 import { get } from "lodash";
-
 export const namespaced = true;
 
 export const state = {
-  currentUser: null,
-  userProfile: {},
+  currentUser: firebase.auth().currentUser,
+  userProfile: LocalStorage.loadState("userProfile") || {},
 };
 
 export const mutations = {
@@ -37,6 +37,7 @@ export const actions = {
     return getUserById(uid)
       .then((user) => {
         commit("SET_USER_PROFILE", user);
+        LocalStorage.saveState("userProfile", user);
       })
       .catch((err) => {
         loader.done();
@@ -111,32 +112,12 @@ export const actions = {
           message: "You've successfully signed out!",
         };
         dispatch("notification/add", notification, { root: true });
+        LocalStorage.removeState("userProfile");
 
         return state.user;
       })
       .catch((err) => {
         loader.done();
-        const notification = {
-          type: "error",
-          message: err.message,
-        };
-        dispatch("notification/add", notification, { root: true });
-
-        throw new Error(err);
-      });
-  },
-  verifyEmail({ dispatch }, email) {
-    return verifyEmail(email)
-      .then(() => {
-        const notification = {
-          type: "success",
-          message: "You've successfully verified your email!",
-        };
-        dispatch("notification/add", notification, { root: true });
-
-        return email;
-      })
-      .catch((err) => {
         const notification = {
           type: "error",
           message: err.message,

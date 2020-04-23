@@ -5,7 +5,7 @@ export const signIn = ({ email, password }) => {
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then((user) => {
-      if (!user.emailVerified) {
+      if (!user.user.emailVerified) {
         throw new Error("You should verify your email!");
       }
 
@@ -13,26 +13,8 @@ export const signIn = ({ email, password }) => {
     });
 };
 
-export const verifyEmail = (email) => {
-  if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
-    return firebase.auth().signInWithEmailLink(email, window.location.href);
-  }
-
-  throw new Error("It seems like your confirmation link is broken!");
-};
-
 export const sendVerificationEmail = (user) => {
-  var actionCodeSettings = {
-    // URL you want to redirect back to. The domain (www.example.com) for this
-    // URL must be whitelisted in the Firebase Console.
-    url: `https://v-manage.herokuapp.com/email-verification?email=${user.user.email}&uid=${user.user.uid}`,
-    // This must be true.
-    handleCodeInApp: true,
-  };
-
-  return firebase
-    .auth()
-    .sendSignInLinkToEmail(user.user.email, actionCodeSettings);
+  return user.user.sendEmailVerification();
 };
 
 export const signUp = ({ email, password, ...info }) => {
