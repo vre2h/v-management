@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import Menu from "./components/Menu.vue";
-import Layout from "./components/Layout";
-import NoitificationContainer from "@/components/NotificationContainer.vue";
+import NoitificationContainer from '@/components/NotificationContainer.vue';
+import Menu from './components/Menu.vue';
+import Layout from './components/Layout.vue';
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Menu,
     Layout,

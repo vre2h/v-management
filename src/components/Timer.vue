@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { beep } from "../utils";
+import { beep } from '../utils';
 
 export default {
   props: {
@@ -94,7 +94,7 @@ export default {
   },
   data() {
     return {
-      timerProcess: "unset",
+      timerProcess: 'unset',
       timer: this.createTimerValues(),
       timeoutId: null,
       completedTime: 0,
@@ -103,13 +103,13 @@ export default {
   methods: {
     cleanTimer() {
       clearTimeout(this.timeoutId);
-      this.timerProcess = "unset";
+      this.timerProcess = 'unset';
       this.timer = this.createTimerValues();
     },
     startTimer() {
-      this.timerProcess = "settled";
+      this.timerProcess = 'settled';
       this.timeoutId = setInterval(() => {
-        if (this.timerProcess === "paused") return;
+        if (this.timerProcess === 'paused') return;
 
         const restTime = this.activeTime - 1;
         this.completedTime += 1;
@@ -147,22 +147,22 @@ export default {
           title: this.timer.title,
           description: this.timer.description,
         },
-        this.completedTime
+        this.completedTime,
       );
       this.cleanTimer();
     },
     pauseTimer() {
-      this.timerProcess = "paused";
+      this.timerProcess = 'paused';
     },
     unPauseTimer() {
-      this.timerProcess = "settled";
+      this.timerProcess = 'settled';
     },
     createTimerValues() {
       return {
-        minutes: "30",
-        seconds: "00",
-        title: "",
-        description: "",
+        minutes: '30',
+        seconds: '00',
+        title: '',
+        description: '',
       };
     },
   },
@@ -171,7 +171,7 @@ export default {
       return Number(this.timer.minutes) * 60 + Number(this.timer.seconds);
     },
     disableData() {
-      return this.timerProcess === "paused" || this.timerProcess === "settled";
+      return this.timerProcess === 'paused' || this.timerProcess === 'settled';
     },
   },
 };

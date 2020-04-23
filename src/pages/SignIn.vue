@@ -52,14 +52,14 @@
 export default {
   data() {
     return {
-      user: { email: "", password: "" },
+      user: { email: '', password: '' },
     };
   },
   methods: {
     signIn() {
-      this.$store.dispatch("user/signIn", this.user).then(() => {
+      this.$store.dispatch('user/signIn', this.user).then(() => {
         this.$router.push({
-          name: "home",
+          name: 'home',
         });
       });
     },

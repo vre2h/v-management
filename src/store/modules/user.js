@@ -1,18 +1,19 @@
-import * as firebase from "@/firebase";
+import * as firebase from '@/firebase';
 import {
   getUserById,
   signIn,
   signUp,
   signOut,
-} from "@/services/authentication";
-import * as LocalStorage from "@/services/localStorage";
-import loader from "nprogress";
-import { get } from "lodash";
+} from '@/services/authentication';
+import * as LocalStorage from '@/services/localStorage';
+import loader from 'nprogress';
+import { get } from 'lodash';
+
 export const namespaced = true;
 
 export const state = {
   currentUser: firebase.auth().currentUser,
-  userProfile: LocalStorage.loadState("userProfile") || {},
+  userProfile: LocalStorage.loadState('userProfile') || {},
 };
 
 export const mutations = {
@@ -29,50 +30,50 @@ export const mutations = {
 };
 
 export const actions = {
-  fetchUserProfile({ commit, state, dispatch }) {
-    const uid = get(state, "currentUser.uid", "");
+  fetchUserProfile({ commit, state: iState, dispatch }) {
+    const uid = get(iState, 'currentUser.uid', '');
 
-    if (!uid) return;
+    if (uid) {
+      return getUserById(uid)
+        .then((user) => {
+          commit('SET_USER_PROFILE', user);
+          LocalStorage.saveState('userProfile', user);
+        })
+        .catch((err) => {
+          loader.done();
+          const notification = {
+            type: 'error',
+            message: err.message,
+          };
+          dispatch('notification/add', notification, { root: true });
 
-    return getUserById(uid)
-      .then((user) => {
-        commit("SET_USER_PROFILE", user);
-        LocalStorage.saveState("userProfile", user);
-      })
-      .catch((err) => {
-        loader.done();
-        const notification = {
-          type: "error",
-          message: err.message,
-        };
-        dispatch("notification/add", notification, { root: true });
+          throw new Error(err);
+        });
+    }
 
-        throw new Error(err);
-      });
+    return false;
   },
   signIn({ dispatch, commit }, userInfo) {
     loader.start();
 
     return signIn(userInfo)
       .then((user) => {
-        commit("SET_CURRENT_USER", user.user);
+        commit('SET_CURRENT_USER', user.user);
 
         const notification = {
-          type: "success",
+          type: 'success',
           message: "You've successfully signed in!",
         };
 
-        return dispatch("fetchUserProfile").then(() => {
-          return dispatch("notification/add", notification, { root: true });
-        });
+        return dispatch('fetchUserProfile').then(() => dispatch('notification/add', notification, { root: true }));
       })
       .catch((err) => {
         loader.done();
         const notification = {
-          type: "error",
+          type: 'error',
           message: err.message,
         };
-        dispatch("notification/add", notification, { root: true });
+        dispatch('notification/add', notification, { root: true });
 
         throw new Error(err);
       });
@@ -80,49 +81,49 @@ export const actions = {
   signUp({ dispatch }, user) {
     loader.start();
     return signUp(user)
-      .then((user) => {
+      .then((signedUpUser) => {
         const notification = {
-          type: "success",
+          type: 'success',
           message: "You've successfully signed up!",
         };
-        dispatch("notification/add", notification, { root: true });
-        return user;
+        dispatch('notification/add', notification, { root: true });
+        return signedUpUser;
       })
       .catch((err) => {
         loader.done();
 
         const notification = {
-          type: "error",
+          type: 'error',
           message: err.message,
         };
-        dispatch("notification/add", notification, { root: true });
+        dispatch('notification/add', notification, { root: true });
 
         throw new Error(err);
       });
   },
-  signOut({ dispatch, commit, state }) {
+  signOut({ dispatch, commit, state: iState }) {
     loader.start();
 
     return signOut()
       .then(() => {
-        commit("CLEAN_USER");
+        commit('CLEAN_USER');
 
         const notification = {
-          type: "success",
+          type: 'success',
           message: "You've successfully signed out!",
         };
-        dispatch("notification/add", notification, { root: true });
-        LocalStorage.removeState("userProfile");
+        dispatch('notification/add', notification, { root: true });
+        LocalStorage.removeState('userProfile');
 
-        return state.user;
+        return iState.user;
       })
       .catch((err) => {
         loader.done();
         const notification = {
-          type: "error",
+          type: 'error',
           message: err.message,
         };
-        dispatch("notification/add", notification, { root: true });
+        dispatch('notification/add', notification, { root: true });
 
         throw new Error(err);
       });

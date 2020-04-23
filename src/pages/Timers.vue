@@ -23,20 +23,20 @@
 </template>
 
 <script>
-import Timer from "@/components/Timer";
-import TimerStat from "@/components/TimerStat";
+import Timer from '@/components/Timer.vue';
+import TimerStat from '@/components/TimerStat.vue';
 
 export default {
   components: { Timer, TimerStat },
   data() {
     return {
-      timerName: "",
+      timerName: '',
       timers: [],
     };
   },
   methods: {
     handleTimerFinish(timer) {
-      this.timers.push({ ...timer, status: "finished" });
+      this.timers.push({ ...timer, status: 'finished' });
     },
     handleTimerResetAndSave(timer, completedTime) {
       const minutes = Math.floor(completedTime / 60);
@@ -44,7 +44,7 @@ export default {
 
       this.timers.push({
         ...timer,
-        status: "resetted",
+        status: 'resetted',
         completedMinutes: minutes,
         completedSeconds: seconds,
       });

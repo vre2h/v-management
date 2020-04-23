@@ -6,24 +6,24 @@ export const state = {
 let nextId = 1;
 
 export const mutations = {
-  PUSH(state, notification) {
-    state.notifications.push({
+  PUSH(iState, notification) {
+    iState.notifications.push({
       ...notification,
       id: (nextId += 1),
     });
   },
-  DELETE(state, notificationToRemove) {
+  DELETE(iState, notificationToRemove) {
     state.notifications = state.notifications.filter(
-      (notification) => notification.id !== notificationToRemove.id
+      (notification) => notification.id !== notificationToRemove.id,
     );
   },
 };
 
 export const actions = {
   add({ commit }, notification) {
-    commit("PUSH", notification);
+    commit('PUSH', notification);
   },
   remove({ commit }, notification) {
-    commit("DELETE", notification);
+    commit('DELETE', notification);
   },
 };

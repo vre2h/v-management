@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
 
 export default {
   props: {
@@ -27,10 +27,10 @@ export default {
   },
   computed: {
     alertType() {
-      return this.notification.type === "error" ? "danger" : "success";
+      return this.notification.type === 'error' ? 'danger' : 'success';
     },
   },
-  methods: mapActions("notification", ["remove"]),
+  methods: mapActions('notification', ['remove']),
 };
 </script>
 

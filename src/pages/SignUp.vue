@@ -61,13 +61,13 @@
 export default {
   data() {
     return {
-      user: { email: "", password: "", name: "" },
+      user: { email: '', password: '', name: '' },
     };
   },
   methods: {
     signUp() {
-      this.$store.dispatch("user/signUp", this.user).then(() => {
-        this.$router.push("email-verification");
+      this.$store.dispatch('user/signUp', this.user).then(() => {
+        this.$router.push('email-verification');
       });
     },
   },
