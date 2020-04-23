@@ -2,7 +2,7 @@
   <div>
     <div>
       <b-navbar toggleable="md" type="light" variant="light">
-        <b-navbar-brand to="/">v-Management</b-navbar-brand>
+        <b-navbar-brand to="/">v-Manage</b-navbar-brand>
 
         <template v-if="isLoggedIn">
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
