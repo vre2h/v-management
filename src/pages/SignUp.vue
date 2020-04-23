@@ -66,7 +66,9 @@ export default {
   },
   methods: {
     signUp() {
-      this.$store.dispatch("user/signUp", this.user);
+      this.$store.dispatch("user/signUp", this.user).then(() => {
+        this.$router.push("email-verification");
+      });
     },
   },
 };

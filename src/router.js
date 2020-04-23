@@ -8,6 +8,7 @@ import SignIn from "@/pages/SignIn.vue";
 import SignUp from "@/pages/SignUp.vue";
 import NotFound from "@/pages/NotFound.vue";
 import Home from "@/pages/Home.vue";
+import EmailVerification from "@/pages/EmailVerification.vue";
 
 Vue.use(Router);
 
@@ -29,6 +30,12 @@ const router = new Router({
       path: "/sign-up",
       name: "sign-up",
       component: SignUp,
+    },
+    {
+      path: "/email-verification",
+      name: "email-verification",
+      component: EmailVerification,
+      props: true,
     },
     {
       path: "/timer",

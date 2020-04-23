@@ -3,6 +3,7 @@ import {
   signIn,
   signUp,
   signOut,
+  verifyEmail,
 } from "@/services/authentication";
 import loader from "nprogress";
 import { get } from "lodash";
@@ -43,8 +44,8 @@ export const actions = {
           type: "error",
           message: err.message,
         };
-
         dispatch("notification/add", notification, { root: true });
+
         throw new Error(err);
       });
   },
@@ -70,21 +71,21 @@ export const actions = {
           type: "error",
           message: err.message,
         };
-
         dispatch("notification/add", notification, { root: true });
+
         throw new Error(err);
       });
   },
   signUp({ dispatch }, user) {
     loader.start();
     return signUp(user)
-      .then(() => {
+      .then((user) => {
         const notification = {
           type: "success",
           message: "You've successfully signed up!",
         };
-
         dispatch("notification/add", notification, { root: true });
+        return user;
       })
       .catch((err) => {
         loader.done();
@@ -93,8 +94,8 @@ export const actions = {
           type: "error",
           message: err.message,
         };
-
         dispatch("notification/add", notification, { root: true });
+
         throw new Error(err);
       });
   },
@@ -109,7 +110,6 @@ export const actions = {
           type: "success",
           message: "You've successfully signed out!",
         };
-
         dispatch("notification/add", notification, { root: true });
 
         return state.user;
@@ -120,7 +120,27 @@ export const actions = {
           type: "error",
           message: err.message,
         };
+        dispatch("notification/add", notification, { root: true });
 
+        throw new Error(err);
+      });
+  },
+  verifyEmail({ dispatch }, email) {
+    return verifyEmail(email)
+      .then(() => {
+        const notification = {
+          type: "success",
+          message: "You've successfully verified your email!",
+        };
+        dispatch("notification/add", notification, { root: true });
+
+        return email;
+      })
+      .catch((err) => {
+        const notification = {
+          type: "error",
+          message: err.message,
+        };
         dispatch("notification/add", notification, { root: true });
 
         throw new Error(err);
