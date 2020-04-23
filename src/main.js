@@ -2,6 +2,8 @@ import Vue from "vue";
 import App from "./App";
 
 import * as firebase from "@/firebase";
+import store from "@/store/store";
+
 // UI
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
@@ -20,6 +22,7 @@ firebase.auth().onAuthStateChanged(() => {
   if (!app) {
     app = new Vue({
       el: "#app",
+      store,
       router,
       render: (h) => h(App),
     });

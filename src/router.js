@@ -1,10 +1,12 @@
 import Vue from "vue";
 import Router from "vue-router";
 import * as firebase from "@/firebase";
+import loader from "nprogress";
 
 import Timer from "@/pages/Timers.vue";
 import SignIn from "@/pages/SignIn.vue";
 import SignUp from "@/pages/SignUp.vue";
+import NotFound from "@/pages/NotFound.vue";
 
 Vue.use(Router);
 
@@ -29,10 +31,22 @@ const router = new Router({
         requiresAuth: true,
       },
     },
+    {
+      path: "/404",
+      name: "404",
+      component: NotFound,
+      props: true,
+    },
+    {
+      path: "*",
+      redirect: { name: "404", params: { resource: "page" } },
+    },
   ],
 });
 
 router.beforeEach((to, _from, next) => {
+  loader.start();
+
   const requiresAuth = to.matched.some((x) => x.meta.requiresAuth);
   const currentUser = firebase.auth().currentUser;
 
@@ -43,6 +57,10 @@ router.beforeEach((to, _from, next) => {
   } else {
     next();
   }
+});
+
+router.afterEach(() => {
+  loader.done();
 });
 
 export default router;

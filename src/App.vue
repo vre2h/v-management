@@ -2,6 +2,8 @@
   <div id="app">
     <Menu />
 
+    <NoitificationContainer />
+
     <Layout>
       <router-view></router-view>
     </Layout>
@@ -11,13 +13,15 @@
 <script>
 import Menu from "./components/Menu.vue";
 import Layout from "./components/Layout";
+import NoitificationContainer from "@/components/NotificationContainer.vue";
 
 export default {
   name: "App",
   components: {
     Menu,
-    Layout
-  }
+    Layout,
+    NoitificationContainer,
+  },
 };
 </script>
 
