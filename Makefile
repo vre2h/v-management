@@ -9,3 +9,6 @@ lint:
 
 deploy: lint
 	git push heroku master
+
+log:
+	heroku logs --tail
