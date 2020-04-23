@@ -4,7 +4,7 @@
       <b-col sm="6">
         <label for="input-default">Goal:</label>
         <b-form-input
-          :disabled="timerProcess === 'settled'"
+          :disabled="disableData"
           v-model="timer.title"
           id="input-default"
           placeholder="Put your goal here..."
@@ -16,7 +16,7 @@
         <label for="textarea-default">Description:</label>
         <b-form-textarea
           v-model="timer.description"
-          :disabled="timerProcess === 'settled'"
+          :disabled="disableData"
           id="textarea-default"
           placeholder="Description"
         ></b-form-textarea>
@@ -28,13 +28,13 @@
           <b-form-input
             type="number"
             aria-label="Minutes"
-            :disabled="timerProcess === 'settled'"
+            :disabled="disableData"
             v-model="timer.minutes"
           ></b-form-input>
           <b-form-input
             type="number"
             aria-label="Seconds"
-            :disabled="timerProcess === 'settled'"
+            :disabled="disableData"
             v-model="timer.seconds"
           ></b-form-input>
         </b-input-group>
@@ -47,6 +47,22 @@
           :disabled="timerProcess === 'settled' || activeTime === 0"
           @click="startTimer"
         >Start</b-button>
+        <b-button
+          v-if="timerProcess === 'settled'"
+          variant="outline-primary"
+          :disabled="timerProcess === 'paused' || activeTime === 0"
+          @click="pauseTimer"
+        >Stop</b-button>
+        <b-button
+          v-if="timerProcess === 'paused'"
+          variant="outline-primary"
+          @click="unPauseTimer"
+        >Resume</b-button>
+        <b-button
+          variant="outline-primary"
+          @click="resetAndSaveTimer"
+          :disabled="timerProcess === 'unset'"
+        >Reset and Save</b-button>
         <b-button
           variant="outline-primary"
           @click="resetTimer"
@@ -66,11 +82,7 @@ export default {
       type: Function,
       required: true
     },
-    onStart: {
-      type: Function,
-      required: true
-    },
-    onReset: {
+    onResetAndSave: {
       type: Function,
       required: true
     }
@@ -79,7 +91,8 @@ export default {
     return {
       timerProcess: "unset",
       timer: this.createTimerValues(),
-      timeoutId: null
+      timeoutId: null,
+      completedTime: 0
     };
   },
   methods: {
@@ -91,7 +104,10 @@ export default {
     startTimer() {
       this.timerProcess = "settled";
       this.timeoutId = setInterval(() => {
+        if (this.timerProcess === "paused") return;
+
         const restTime = this.activeTime - 1;
+        this.completedTime += 1;
         const minutes = Math.floor(restTime / 60);
         const seconds = restTime % 60;
 
@@ -100,25 +116,41 @@ export default {
           this.onFinish(this.timeoutId);
         } else if (restTime === 0) {
           beep();
-          this.onFinish(this.timeoutId);
+          this.onFinish({
+            id: this.timeoutId,
+            minutes: this.timer.minutes,
+            seconds: this.timer.seconds,
+            title: this.timer.title,
+            description: this.timer.description
+          });
           this.cleanTimer();
         } else {
           this.timer.minutes = minutes;
           this.timer.seconds = seconds;
         }
       }, 1000);
-
-      this.onStart({
-        id: this.timeoutId,
-        minutes: this.timer.minutes,
-        seconds: this.timer.seconds,
-        title: this.timer.title,
-        description: this.timer.description
-      });
     },
     resetTimer() {
-      this.onReset(this.timeoutId, this.activeTime);
       this.cleanTimer();
+    },
+    resetAndSaveTimer() {
+      this.onResetAndSave(
+        {
+          id: this.timeoutId,
+          minutes: this.timer.minutes,
+          seconds: this.timer.seconds,
+          title: this.timer.title,
+          description: this.timer.description
+        },
+        this.completedTime
+      );
+      this.cleanTimer();
+    },
+    pauseTimer() {
+      this.timerProcess = "paused";
+    },
+    unPauseTimer() {
+      this.timerProcess = "settled";
     },
     createTimerValues() {
       return {
@@ -132,6 +164,9 @@ export default {
   computed: {
     activeTime() {
       return Number(this.timer.minutes) * 60 + Number(this.timer.seconds);
+    },
+    disableData() {
+      return this.timerProcess === "paused" || this.timerProcess === "settled";
     }
   }
 };

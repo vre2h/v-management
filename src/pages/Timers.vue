@@ -1,7 +1,7 @@
 <template>
   <b-container fluid="sm">
     <b-row class="mb-3">
-      <Timer :onFinish="handleTimerFinish" :onReset="handleTimerReset" :onStart="handleTimerStart" />
+      <Timer :onFinish="handleTimerFinish" :onResetAndSave="handleTimerResetAndSave" />
     </b-row>
     <b-row class="d-flex justify-content-center">
       <b-col sm="8">
@@ -32,30 +32,19 @@ export default {
     };
   },
   methods: {
-    handleTimerFinish(timerId) {
-      this.timers = this.timers.map(timer =>
-        timer.id === timerId ? { ...timer, status: "finished" } : timer
-      );
+    handleTimerFinish(timer) {
+      this.timers.push(timer);
     },
-    handleTimerReset(timerId, activeTime) {
-      this.timers = this.timers.map(timer => {
-        const allSeconds = Number(timer.minutes) * 60 + Number(timer.seconds);
-        const completedSeconds = allSeconds - activeTime;
-        const minutes = Math.floor(completedSeconds / 60);
-        const seconds = completedSeconds % 60;
+    handleTimerResetAndSave(timer, completedTime) {
+      const minutes = Math.floor(completedTime / 60);
+      const seconds = completedTime % 60;
 
-        return timer.id === timerId
-          ? {
-              ...timer,
-              status: "resetted",
-              completedMinutes: minutes,
-              completedSeconds: seconds
-            }
-          : timer;
+      this.timers.push({
+        ...timer,
+        status: "resetted",
+        completedMinutes: minutes,
+        completedSeconds: seconds
       });
-    },
-    handleTimerStart(timerInfo) {
-      this.timers.push({ ...timerInfo, status: "started" });
     }
   }
 };
