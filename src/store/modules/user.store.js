@@ -3,7 +3,7 @@ import {
   signIn,
   signUp,
   signOut,
-} from '@/services/authentication';
+} from '@/services/authentication.service';
 import * as LocalStorage from '@/services/localStorage';
 import loader from 'nprogress';
 import { get } from 'lodash';
