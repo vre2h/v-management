@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import * as firebase from '@/firebase';
 import loader from 'nprogress';
 
 import Timer from '@/pages/Timers.vue';
@@ -9,6 +8,7 @@ import SignUp from '@/pages/SignUp.vue';
 import NotFound from '@/pages/NotFound.vue';
 import Home from '@/pages/Home.vue';
 import EmailVerification from '@/pages/EmailVerification.vue';
+import { getUser, isUserVerified } from '@/services/user.service';
 
 Vue.use(Router);
 
@@ -65,11 +65,12 @@ router.beforeEach((to, _from, next) => {
   loader.start();
 
   const requiresAuth = to.matched.some((x) => x.meta.requiresAuth);
-  const { currentUser } = firebase.auth();
+  const currentUser = getUser();
+  const verifiedUser = isUserVerified(currentUser);
 
-  if (requiresAuth && !currentUser) {
-    next('/sign-in');
-  } else if (requiresAuth && currentUser) {
+  if (requiresAuth && !verifiedUser) {
+    next('sign-in');
+  } else if (requiresAuth && verifiedUser) {
     next();
   } else {
     next();

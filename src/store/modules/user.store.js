@@ -1,6 +1,5 @@
-import * as firebase from '@/firebase';
+import { getUser, getUserProfileById } from '@/services/user.service';
 import {
-  getUserById,
   signIn,
   signUp,
   signOut,
@@ -12,7 +11,7 @@ import { get } from 'lodash';
 export const namespaced = true;
 
 export const state = {
-  currentUser: firebase.auth().currentUser,
+  currentUser: getUser(),
   userProfile: LocalStorage.loadState('userProfile') || {},
 };
 
@@ -34,7 +33,7 @@ export const actions = {
     const uid = get(iState, 'currentUser.uid', '');
 
     if (uid) {
-      return getUserById(uid)
+      return getUserProfileById(uid)
         .then((user) => {
           commit('SET_USER_PROFILE', user);
           LocalStorage.saveState('userProfile', user);

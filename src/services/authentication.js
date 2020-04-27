@@ -13,20 +13,15 @@ export const signIn = ({ email, password }) => firebase
 
 export const sendVerificationEmail = (user) => user.user.sendEmailVerification();
 
+const createNewUser = ({ id, name, email }) => firebase.db.ref(`users/${id}`).set({
+  name,
+  email,
+});
+
 export const signUp = ({ email, password, ...info }) => firebase
   .auth()
   .createUserWithEmailAndPassword(email, password)
-  .then((user) => firebase.usersCollection
-    .doc(user.user.uid)
-    .set({
-      ...info,
-    })
-    .then(() => user))
+  .then((user) => createNewUser({ id: user.user.uid, email, name: info.name }).then(() => user))
   .then(sendVerificationEmail);
 
 export const signOut = () => firebase.auth().signOut();
-
-export const getUserById = (uid) => firebase.usersCollection
-  .doc(uid)
-  .get()
-  .then((res) => res.data());

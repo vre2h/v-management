@@ -25,16 +25,10 @@ const config = {
 firebase.initializeApp(config);
 
 // firebase utils
-const db = firebase.firestore();
+const db = firebase.database();
 const { auth } = firebase;
 const { currentUser } = auth();
 
-// date issue fix according to firebase
-db.settings({});
-
-// firebase collections
-const usersCollection = db.collection('users');
-
 export {
-  db, auth, currentUser, usersCollection,
+  db, auth, currentUser,
 };
