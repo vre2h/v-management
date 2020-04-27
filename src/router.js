@@ -20,6 +20,9 @@ const router = new Router({
       path: '/',
       name: 'home',
       component: Home,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/sign-in',
@@ -40,6 +43,7 @@ const router = new Router({
     {
       path: '/timer',
       component: Timer,
+      name: 'timer',
       meta: {
         requiresAuth: true,
       },
