@@ -25,12 +25,12 @@ export const actions = {
     const newTimer = { ...timer, status: 'finished', date: new Date() };
     return dispatch('saveTimer', newTimer);
   },
-  resetAndSave({ dispatch }, { timer, completedTime }) {
+  stopAndSave({ dispatch }, { timer, completedTime }) {
     const minutes = Math.floor(completedTime / 60);
     const seconds = completedTime % 60;
     const newTimer = {
       ...timer,
-      status: 'resetted',
+      status: 'stopped_and_saved',
       completedMinutes: minutes,
       completedSeconds: seconds,
       date: new Date(),

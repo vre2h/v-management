@@ -63,9 +63,9 @@
         >
         <b-button
           variant="outline-primary"
-          @click="resetAndSaveTimer"
+          @click="stopAndSaveTimer"
           :disabled="timerProcess === 'unset'"
-          >Reset and Save</b-button
+          >Stop and Save</b-button
         >
         <b-button
           variant="outline-primary"
@@ -87,7 +87,7 @@ export default {
       type: Function,
       required: true,
     },
-    onResetAndSave: {
+    onStopAndSave: {
       type: Function,
       required: true,
     },
@@ -138,8 +138,8 @@ export default {
     resetTimer() {
       this.cleanTimer();
     },
-    resetAndSaveTimer() {
-      this.onResetAndSave(
+    stopAndSaveTimer() {
+      this.onStopAndSave(
         {
           id: this.timeoutId,
           minutes: this.timer.minutes,

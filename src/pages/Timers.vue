@@ -3,7 +3,7 @@
     <b-row class="mb-3">
       <Timer
         :onFinish="handleTimerFinish"
-        :onResetAndSave="handleTimerResetAndSave"
+        :onStopAndSave="handleTimerStopAndSave"
       />
     </b-row>
     <b-row class="d-flex justify-content-center">
@@ -40,8 +40,8 @@ export default {
     handleTimerFinish(timer) {
       this.$store.dispatch('timers/save', timer);
     },
-    handleTimerResetAndSave(timer, completedTime) {
-      this.$store.dispatch('timers/resetAndSave', { timer, completedTime });
+    handleTimerStopAndSave(timer, completedTime) {
+      this.$store.dispatch('timers/stopAndSave', { timer, completedTime });
     },
   },
   computed: mapState('timers', ['timers']),
