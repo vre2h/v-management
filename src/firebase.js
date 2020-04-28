@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import 'firebase/firestore';
+import 'firebase/database';
 
 const {
   VUE_APP_API_KEY,

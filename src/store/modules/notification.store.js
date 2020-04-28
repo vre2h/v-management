@@ -6,13 +6,13 @@ export const state = {
 let nextId = 1;
 
 export const mutations = {
-  PUSH(iState, notification) {
-    iState.notifications.push({
+  PUSH(state, notification) {
+    state.notifications.push({
       ...notification,
       id: (nextId += 1),
     });
   },
-  DELETE(iState, notificationToRemove) {
+  DELETE(state, notificationToRemove) {
     state.notifications = state.notifications.filter(
       (notification) => notification.id !== notificationToRemove.id,
     );

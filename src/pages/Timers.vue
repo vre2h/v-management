@@ -25,31 +25,26 @@
 <script>
 import Timer from '@/components/Timer.vue';
 import TimerStat from '@/components/TimerStat.vue';
+import store from '@/store/store';
+
+import { mapState } from 'vuex';
 
 export default {
   components: { Timer, TimerStat },
-  data() {
-    return {
-      timerName: '',
-      timers: [],
-    };
+  beforeRouteEnter(to, _from, next) {
+    store.dispatch('timers/getAllByUserIdAndDate').then(() => {
+      next();
+    });
   },
   methods: {
     handleTimerFinish(timer) {
-      this.timers.push({ ...timer, status: 'finished' });
+      this.$store.dispatch('timers/save', timer);
     },
     handleTimerResetAndSave(timer, completedTime) {
-      const minutes = Math.floor(completedTime / 60);
-      const seconds = completedTime % 60;
-
-      this.timers.push({
-        ...timer,
-        status: 'resetted',
-        completedMinutes: minutes,
-        completedSeconds: seconds,
-      });
+      this.$store.dispatch('timers/resetAndSave', { timer, completedTime });
     },
   },
+  computed: mapState('timers', ['timers']),
 };
 </script>
 
