@@ -8,6 +8,8 @@ export const saveNewTimer = (uid, timer) => {
   return firebase.db.ref().update(updates);
 };
 
+export const deleteTimer = (uid, timerId) => firebase.db.ref(`/user-timers/${uid}/${timerId}`).remove();
+
 export const getTimersByUserId = (uid) => firebase.db.ref(`/user-timers/${uid}`).once('value').then((snapshot) => snapshot.val());
 
 export const getTimersByUserIdAndDate = (uid) => firebase.db.ref(`/user-timers/${uid}`).once('value').then((snapshot) => snapshot.val());

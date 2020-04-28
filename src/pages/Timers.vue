@@ -15,6 +15,7 @@
             :timer="timer"
             :index="index"
             class="flex-column align-items-start"
+            :onDelete="handleTimerDelete"
           />
         </b-list-group>
       </b-col>
@@ -39,6 +40,9 @@ export default {
   methods: {
     handleTimerFinish(timer) {
       this.$store.dispatch('timers/save', timer);
+    },
+    handleTimerDelete(timerId) {
+      this.$store.dispatch('timers/delete', timerId);
     },
     handleTimerStopAndSave(timer, completedTime) {
       this.$store.dispatch('timers/stopAndSave', { timer, completedTime });

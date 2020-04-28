@@ -1,11 +1,16 @@
 <template>
-  <b-list-group-item :variant="listItemVariant" class="flex-column align-items-start">
+  <b-list-group-item variant="light" class="flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1">{{ title }}</h5>
-      <small>{{ status }}</small>
+      <div>
+        <b-link @click.prevent="handleDelete">
+          <b-icon icon="trash-fill"></b-icon>
+        </b-link>
+      </div>
     </div>
     <p class="mb-1">{{timer.description}}</p>
-    <small>{{time}}</small>
+    <small>{{time}}</small> |
+    <b-badge :variant="listItemVariant">{{ status }}</b-badge>
   </b-list-group-item>
 </template>
 
@@ -16,6 +21,10 @@ export default {
       type: Object,
       required: true,
     },
+    onDelete: {
+      type: Function,
+      required: true,
+    },
     index: { type: Number, required: true },
   },
   computed: {
@@ -24,7 +33,7 @@ export default {
         return 'success';
       }
 
-      return 'light';
+      return 'warning';
     },
     title() {
       return this.timer.title
@@ -33,7 +42,7 @@ export default {
     },
     status() {
       if (this.timer.status === 'finished') {
-        return 'Success';
+        return 'Completed';
       }
 
       return 'Almost done';
@@ -45,15 +54,17 @@ export default {
       if (this.timer.status === 'started') {
         return 'In progress';
       }
-
       return `${this.getNormalizedTime(
         this.timer.completedMinutes,
-      )}:${this.getNormalizedTime(this.timer.completedSeconds)}`;
+      )}:${this.getNormalizedTime(this.timer.completedSeconds)} / ${this.getNormalizedTime(this.timer.minutes)}:${this.getNormalizedTime(this.timer.seconds)}`;
     },
   },
   methods: {
     getNormalizedTime(time) {
       return `${String(time).length === 1 ? '0' : ''}${time}`;
+    },
+    handleDelete() {
+      this.onDelete(this.timer.id);
     },
   },
 };
