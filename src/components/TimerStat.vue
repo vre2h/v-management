@@ -1,7 +1,9 @@
 <template>
   <b-list-group-item variant="light" class="flex-column align-items-start">
     <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">{{ title }}</h5>
+      <div class="d-flex flex-column">
+        <h5 class="mb-1">{{ title }}</h5>
+      </div>
       <div>
         <b-link @click.prevent="handleDelete">
           <b-icon icon="trash-fill"></b-icon>
@@ -9,12 +11,17 @@
       </div>
     </div>
     <p class="mb-1">{{timer.description}}</p>
-    <small>{{time}}</small> |
-    <b-badge :variant="listItemVariant">{{ status }}</b-badge>
+    <div class="d-flex justify-content-center align-items-center">
+      <small>{{time}}</small>
+      <b-badge class="ml-2" :variant="listItemVariant">{{ status }}</b-badge>
+      <small class="ml-auto">{{date}}</small>
+    </div>
   </b-list-group-item>
 </template>
 
 <script>
+import { formatDate } from '@/utils/date';
+
 export default {
   props: {
     timer: {
@@ -57,6 +64,9 @@ export default {
       return `${this.getNormalizedTime(
         this.timer.completedMinutes,
       )}:${this.getNormalizedTime(this.timer.completedSeconds)} / ${this.getNormalizedTime(this.timer.minutes)}:${this.getNormalizedTime(this.timer.seconds)}`;
+    },
+    date() {
+      return formatDate(this.timer.date);
     },
   },
   methods: {
