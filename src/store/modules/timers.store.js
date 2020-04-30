@@ -1,4 +1,5 @@
 import * as Timers from '@/services/timer.service';
+import moment from 'moment';
 
 export const namespaced = true;
 export const state = {
@@ -18,11 +19,12 @@ export const mutations = {
 };
 
 export const actions = {
-  getAllByUserIdAndDate({ commit, rootState }) {
-    return Timers.getTimersByUserIdAndDate(rootState.user.currentUser.uid).then((timers = {}) => {
-      const timersArr = timers ? Object.values(timers) : [];
-      commit('SET_TIMERS', timersArr);
-    });
+  getAllByUserIdAndDate({ commit, rootState }, { filterDate }) {
+    return Timers
+      .getTimersByUserIdAndDate(rootState.user.currentUser.uid, filterDate)
+      .then((timers = []) => {
+        commit('SET_TIMERS', timers);
+      });
   },
   delete({ dispatch, rootState, commit }, timerId) {
     return Timers.deleteTimer(rootState.user.currentUser.uid, timerId).then(() => {
@@ -35,7 +37,7 @@ export const actions = {
     });
   },
   save({ dispatch }, timer) {
-    const newTimer = { ...timer, status: 'finished', date: new Date() };
+    const newTimer = { ...timer, status: 'finished', date: moment(new Date()).format('MM-DD-YYY') };
     return dispatch('saveTimer', newTimer);
   },
   stopAndSave({ dispatch }, { timer, completedTime }) {
@@ -46,7 +48,7 @@ export const actions = {
       status: 'stopped_and_saved',
       completedMinutes: minutes,
       completedSeconds: seconds,
-      date: new Date(),
+      date: moment(new Date()).format('MM-DD-YYYY'),
     };
     return dispatch('saveTimer', newTimer);
   },

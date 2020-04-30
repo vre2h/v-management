@@ -27,13 +27,20 @@
 import Timer from '@/components/Timer.vue';
 import TimerStat from '@/components/TimerStat.vue';
 import store from '@/store/store';
-
+import moment from 'moment';
 import { mapState } from 'vuex';
 
 export default {
   components: { Timer, TimerStat },
   beforeRouteEnter(to, _from, next) {
-    store.dispatch('timers/getAllByUserIdAndDate').then(() => {
+    const filterTimerDate = (timer) => {
+      const timerDate = moment(timer.date);
+      const now = moment();
+      return now.diff(timerDate, 'days') === 0;
+    };
+    store.dispatch('timers/getAllByUserIdAndDate', {
+      filterDate: filterTimerDate,
+    }).then(() => {
       next();
     });
   },

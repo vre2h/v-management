@@ -140,7 +140,7 @@ export default {
     },
     stopAndSaveTimer() {
       const startedTimer = this.activeTime + this.completedTime;
-      const minutes = startedTimer / 60;
+      const minutes = Math.floor(startedTimer / 60);
       const seconds = startedTimer % 60;
       this.onStopAndSave(
         {
