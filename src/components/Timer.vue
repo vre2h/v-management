@@ -139,11 +139,14 @@ export default {
       this.cleanTimer();
     },
     stopAndSaveTimer() {
+      const startedTimer = this.activeTime + this.completedTime;
+      const minutes = startedTimer / 60;
+      const seconds = startedTimer % 60;
       this.onStopAndSave(
         {
           id: this.timeoutId,
-          minutes: this.timer.minutes,
-          seconds: this.timer.seconds,
+          minutes,
+          seconds,
           title: this.timer.title,
           description: this.timer.description,
         },
