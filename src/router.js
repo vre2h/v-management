@@ -8,7 +8,7 @@ import SignUp from '@/pages/SignUp.vue';
 import NotFound from '@/pages/NotFound.vue';
 import Home from '@/pages/Home.vue';
 import EmailVerification from '@/pages/EmailVerification.vue';
-import { getUser, isUserVerified } from '@/services/user.service';
+import { getUser } from '@/services/user.service';
 
 Vue.use(Router);
 
@@ -66,11 +66,10 @@ router.beforeEach((to, _from, next) => {
 
   const requiresAuth = to.matched.some((x) => x.meta.requiresAuth);
   const currentUser = getUser();
-  const verifiedUser = isUserVerified(currentUser);
 
-  if (requiresAuth && !verifiedUser) {
+  if (requiresAuth && !currentUser) {
     next('sign-in');
-  } else if (requiresAuth && verifiedUser) {
+  } else if (requiresAuth && currentUser) {
     next();
   } else {
     next();

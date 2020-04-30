@@ -2,6 +2,7 @@ import Vue from 'vue';
 
 import * as firebase from '@/firebase';
 import store from '@/store/store';
+import { getUser } from '@/services/user.service';
 
 // UI
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
@@ -21,8 +22,9 @@ Vue.use(BootstrapVueIcons);
 
 let app;
 
-firebase.auth().onAuthStateChanged((user) => {
-  store.commit('user/SET_CURRENT_USER', user);
+firebase.auth().onAuthStateChanged(() => {
+  const currentUser = getUser();
+  store.commit('user/SET_CURRENT_USER', currentUser);
 
   if (!app) {
     app = new Vue({
