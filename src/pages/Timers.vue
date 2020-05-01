@@ -34,7 +34,7 @@ export default {
   components: { Timer, TimerStat },
   beforeRouteEnter(to, _from, next) {
     const filterTimerDate = (timer) => {
-      const timerDate = moment(timer.date);
+      const timerDate = moment(timer.date, 'MM-DD-YYYY');
       const now = moment();
       return now.diff(timerDate, 'days') === 0;
     };
