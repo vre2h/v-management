@@ -71,6 +71,11 @@ export default {
       });
     },
   },
+  computed: {
+    routeToEmail() {
+      return this.$root.ROUTES.signIn.name;
+    },
+  },
 };
 </script>
 

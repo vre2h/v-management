@@ -46,9 +46,7 @@ export default {
   methods: {
     signOut() {
       this.$store.dispatch('user/signOut').then(() => {
-        this.$router.push({
-          name: 'sign-in',
-        });
+        this.$router.push(this.routeToSignIn);
       });
     },
   },
@@ -56,6 +54,10 @@ export default {
     ...mapState('user', ['userProfile', 'currentUser']),
     isLoggedIn() {
       return !!this.currentUser;
+    },
+    routeToSignIn() {
+      const name = this.$root.ROUTES.signIn;
+      return { name };
     },
   },
 };

@@ -15,7 +15,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'nprogress/nprogress.css';
 
 // Routing
-import router from './router';
+import router, { ROUTES } from './router';
 
 // App
 import App from './App.vue';
@@ -37,8 +37,9 @@ firebase.auth().onAuthStateChanged(() => {
       router,
       render: (h) => h(App),
       i18n,
+      data: {
+        ROUTES,
+      },
     });
-  } else {
-    throw new Error("Firebase isn't loaded!");
   }
 });

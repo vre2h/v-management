@@ -58,10 +58,15 @@ export default {
   methods: {
     signIn() {
       this.$store.dispatch('user/signIn', this.user).then(() => {
-        this.$router.push({
-          name: 'home',
-        });
+        this.$router.push(this.routeToHome);
       });
+    },
+  },
+  computed: {
+    routeToHome() {
+      return {
+        name: this.$root.ROUTES.home.name,
+      };
     },
   },
 };
