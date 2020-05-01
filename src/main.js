@@ -1,20 +1,24 @@
 import Vue from 'vue';
 
+// services
 import * as firebase from '@/firebase';
 import store from '@/store/store';
 import { getUser } from '@/services/user.service';
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
+
+// i18n
+import i18n from '@/i18n/i18n';
 
 // UI
-import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
-// eslint-disable-next-line
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'nprogress/nprogress.css';
 
-import App from './App.vue';
-
 // Routing
 import router from './router';
+
+// App
+import App from './App.vue';
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
@@ -32,6 +36,9 @@ firebase.auth().onAuthStateChanged(() => {
       store,
       router,
       render: (h) => h(App),
+      i18n,
     });
+  } else {
+    throw new Error("Firebase isn't loaded!");
   }
 });

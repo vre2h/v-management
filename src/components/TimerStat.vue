@@ -10,11 +10,11 @@
         </b-link>
       </div>
     </div>
-    <p class="mb-1">{{timer.description}}</p>
+    <p class="mb-1">{{ timer.description }}</p>
     <div class="d-flex justify-content-center align-items-center">
-      <small>{{time}}</small>
+      <small>{{ time }}</small>
       <b-badge class="ml-2" :variant="listItemVariant">{{ status }}</b-badge>
-      <small class="ml-auto">{{date}}</small>
+      <small class="ml-auto">{{ date }}</small>
     </div>
   </b-list-group-item>
 </template>
@@ -63,7 +63,11 @@ export default {
       }
       return `${this.getNormalizedTime(
         this.timer.completedMinutes,
-      )}:${this.getNormalizedTime(this.timer.completedSeconds)} / ${this.getNormalizedTime(this.timer.minutes)}:${this.getNormalizedTime(this.timer.seconds)}`;
+      )}:${this.getNormalizedTime(
+        this.timer.completedSeconds,
+      )} / ${this.getNormalizedTime(
+        this.timer.minutes,
+      )}:${this.getNormalizedTime(this.timer.seconds)}`;
     },
     date() {
       return formatDate(this.timer.date);

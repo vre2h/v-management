@@ -2,29 +2,31 @@
   <b-container>
     <b-row sm="4" class="d-flex justify-content-center mb-3">
       <b-col sm="6">
-        <label for="input-default">Goal:</label>
+        <label for="input-default">{{ $t('timer.task.label') }}:</label>
         <b-form-input
           :disabled="disableData"
           v-model="timer.title"
           id="input-default"
-          placeholder="Put your goal here..."
+          :placeholder="$t('timer.task.placeholder')"
         ></b-form-input>
       </b-col>
     </b-row>
     <b-row class="d-flex justify-content-center mb-3">
       <b-col sm="6">
-        <label for="textarea-default">Description:</label>
+        <label for="textarea-default"
+          >{{ $t('timer.description.label') }}:</label
+        >
         <b-form-textarea
           v-model="timer.description"
           :disabled="disableData"
           id="textarea-default"
-          placeholder="Description"
+          :placeholder="$t('timer.description.placeholder')"
         ></b-form-textarea>
       </b-col>
     </b-row>
     <b-row class="d-flex justify-content-center">
       <b-col sm="6">
-        <b-input-group prepend="Timer" class="mb-3">
+        <b-input-group :prepend="$t('timer.inputLabel')" class="mb-3">
           <b-form-input
             type="number"
             aria-label="Minutes"
@@ -46,32 +48,32 @@
           variant="outline-primary"
           :disabled="timerProcess === 'settled' || activeTime === 0"
           @click="startTimer"
-          >Start</b-button
+          >{{ $t('timer.start') }}</b-button
         >
         <b-button
           v-if="timerProcess === 'settled'"
           variant="outline-primary"
           :disabled="timerProcess === 'paused' || activeTime === 0"
           @click="pauseTimer"
-          >Stop</b-button
+          >{{ $t('timer.stop') }}</b-button
         >
         <b-button
           v-if="timerProcess === 'paused'"
           variant="outline-primary"
           @click="unPauseTimer"
-          >Resume</b-button
+          >{{ $t('timer.resume') }}</b-button
         >
         <b-button
           variant="outline-primary"
           @click="stopAndSaveTimer"
           :disabled="timerProcess === 'unset'"
-          >Stop and Save</b-button
+          >{{ $t('timer.stopAndSave') }}</b-button
         >
         <b-button
           variant="outline-primary"
           @click="resetTimer"
           :disabled="timerProcess === 'unset'"
-          >Reset</b-button
+          >{{ $t('timer.reset') }}</b-button
         >
       </b-button-group>
     </b-row>

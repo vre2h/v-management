@@ -1,9 +1,5 @@
 import { getUser, getUserProfileById } from '@/services/user.service';
-import {
-  signIn,
-  signUp,
-  signOut,
-} from '@/services/authentication.service';
+import { signIn, signUp, signOut } from '@/services/authentication.service';
 import * as LocalStorage from '@/services/localStorage';
 import loader from 'nprogress';
 import { get } from 'lodash';
@@ -64,7 +60,9 @@ export const actions = {
           message: "You've successfully signed in!",
         };
 
-        return dispatch('fetchUserProfile').then(() => dispatch('notification/add', notification, { root: true }));
+        return dispatch('fetchUserProfile').then(() =>
+          dispatch('notification/add', notification, { root: true }),
+        );
       })
       .catch((err) => {
         loader.done();

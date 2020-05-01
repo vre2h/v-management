@@ -38,11 +38,13 @@ export default {
       const now = moment();
       return now.diff(timerDate, 'days') === 0;
     };
-    store.dispatch('timers/getAllByUserIdAndDate', {
-      filterDate: filterTimerDate,
-    }).then(() => {
-      next();
-    });
+    store
+      .dispatch('timers/getAllByUserIdAndDate', {
+        filterDate: filterTimerDate,
+      })
+      .then(() => {
+        next();
+      });
   },
   methods: {
     handleTimerFinish(timer) {

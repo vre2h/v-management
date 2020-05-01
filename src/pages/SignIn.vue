@@ -4,14 +4,14 @@
       <b-card class="w-100" bg-variant="light">
         <b-form @submit.prevent>
           <b-form-group
-            label="Sign In:"
+            :label="$t('signIn')"
             label-size="lg"
             label-class="font-weight-bold pt-0"
             class="mb-0"
           >
             <b-form-group
               label-cols-sm="12"
-              label="Email:"
+              :label="$t('email') + ':'"
               label-align-sm="left"
               label-for="email"
             >
@@ -19,7 +19,7 @@
             </b-form-group>
             <b-form-group
               label-cols-sm="12"
-              label="Password:"
+              :label="$t('password') + ':'"
               label-align-sm="left"
               label-for="password"
             >
@@ -36,12 +36,12 @@
             @click="signIn"
             type="submit"
             variant="outline-primary"
-            >Sign In</b-button
+            >{{ $t('signIn') }}</b-button
           >
         </b-form>
         <div class="d-flex justify-content-center mt-3">
-          <p class="mr-1">Don't have an account?</p>
-          <router-link to="/sign-up">Sign Up</router-link>
+          <p class="mr-1">{{ $t('hasAccount.no') }}?</p>
+          <router-link to="/sign-up">{{ $t('signUp') }}</router-link>
         </div>
       </b-card>
     </b-col>

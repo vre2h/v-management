@@ -1,9 +1,9 @@
 <template>
   <b-container fluid="sm">
-    <b-jumbotron header="v-Manage" header-level="3">
-      <p>Hey, welcome to v-Manage application.</p>
-      <p>We can offer you to use our timer:</p>
-      <router-link :to="{ name: 'timer' }">Timer</router-link>
+    <b-jumbotron :header="$t('vManage')" header-level="3">
+      <p>{{ $t("welcome.greeting") }}</p>
+      <p>{{ $t("welcome.offer") }}</p>
+      <router-link :to="{ name: 'timer' }">{{ $t("timer") }}</router-link>
     </b-jumbotron>
   </b-container>
 </template>
